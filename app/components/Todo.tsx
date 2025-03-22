@@ -11,7 +11,9 @@ const Todo = ({ todo }: TodoProps) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editedTitle, setEditedTitle] = useState<string>(todo.title);
   const {data, isLoading, error, mutate} = useTodos();
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  console.log("isLoading="+isLoading);
+  console.log("error code is "+error);
+  //const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
 
   const handleEdit =  async () => {
@@ -43,7 +45,7 @@ const Todo = ({ todo }: TodoProps) => {
     });
 
     if(response.ok){
-      const deletedTodo = await response.json();
+      //const deletedTodo = await response.json();
       const updatedTodos = data.filter((todo: TodoType) =>  todo.id !== id);
       mutate(updatedTodos);
     }
