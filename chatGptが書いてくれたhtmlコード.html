@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        .task-actions button {
+            margin-left: 5px;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .edit {
+            background-color: green;
+            color: white;
+        }
+        .delete {
+            background-color: red;
+            color: white;
+        }
+        .add-button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function ToDoList() {
+            const [tasks, setTasks] = React.useState(["勉強", "HIIT", "Exercise at gym", "Date at Yokohama", "仕事"]);
+            const [newTask, setNewTask] = React.useState("");
+
+            const addTask = () => {
+                if (newTask.trim() !== "") {
+                    setTasks([...tasks, newTask]);
+                    setNewTask("");
+                }
+            };
+
+            const deleteTask = (index) => {
+                setTasks(tasks.filter((_, i) => i !== index));
+            };
+
+            return (
+                <div className="container">
+                    <h2>TO-DO LIST</h2>
+                    <input type="text" value={newTask} onChange={(e) => setNewTask(e.target.value)} placeholder="Add a task" />
+                    <button className="add-button" onClick={addTask}>Add</button>
+                    <div>
+                        {tasks.map((task, index) => (
+                            <div className="task-item" key={index}>
+                                <input type="checkbox" />
+                                <span>{task}</span>
+                                <div className="task-actions">
+                                    <button className="edit"><i className="fa fa-edit"></i></button>
+                                    <button className="delete" onClick={() => deleteTask(index)}><i className="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<ToDoList />);
+    </script>
+</body>
+</html>
